@@ -104,7 +104,7 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
         return currentParent;
     }
 };
-    var getSongItem = function(element) {
+var getSongItem = function(element) {
     switch (element.className) {
         case 'album-song-button':
         case 'ion-play':
@@ -121,16 +121,17 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
             return;
     }  
 };
-     var clickHandler = function(targetElement) {
-         var songItem = getSongItem(targetElement);  
+ var clickHandler = function(targetElement) {
+ 
+    var songItem = getSongItem(targetElement);  
          
          if (currentlyPlayingSong === null) {
          songItem.innerHTML = pauseButtonTemplate;
          currentlyPlayingSong = songItem.getAttribute('data-song-number');
-             } else if (currentlyPlayingSong === songItem.getAttribute('data-song-number')) {
+         } else if (currentlyPlayingSong === songItem.getAttribute('data-song-number')) {
                     songItem.innerHTML = playButtonTemplate;
                     currentlyPlayingSong = null;
-            } else if (currentlyPlayingSong !== songItem.getAttribute('data-song-number')) {
+         } else if (currentlyPlayingSong !== songItem.getAttribute('data-song-number')) {
             var currentlyPlayingSongElement = document.querySelector('[data-song-number="' + currentlyPlayingSong + '"]');
                 currentlyPlayingSongElement.innerHTML = currentlyPlayingSongElement.getAttribute('data-song-number');
                 songItem.innerHTML = pauseButtonTemplate;
