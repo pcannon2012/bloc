@@ -94,7 +94,7 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
 
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
-     
+  //is this insereted at the correct Location?//   
      var findParentByClassName = function(element, targetClass) {
     if (element) {
         var currentParent = element.parentElement;
@@ -168,7 +168,7 @@ var getSongItem = function(element) {
          });
      }
          }
-     });
+});
 
      
 var album = [albumPicasso, albumMarconi, albumBlackLab];
