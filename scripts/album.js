@@ -54,7 +54,40 @@ var createSongRow = function(songNumber, songName, songLength) {
       + '</tr>'
       ;
  
-     return template;
+     var $row = $(template);
+     var clickHandler = function () {
+         
+var clickHandler = function() {
+	var songNumber = $(this).attr('data-song-number');
+
+	if (currentlyPlayingSong !== null) {
+		// Revert to song number for currently playing song because user started playing new song.
+		var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSong + '"]');
+		currentlyPlayingCell.html(currentlyPlayingSong);
+	}
+	if (currentlyPlayingSong !== songNumber) {
+		// Switch from Play -> Pause button to indicate new song is playing.
+		$(this).html(pauseButtonTemplate);
+		currentlyPlayingSong = songNumber;
+	} else if (currentlyPlayingSong === songNumber) {
+		// Switch from Pause -> Play button to pause currently playing song.
+		$(this).html(playButtonTemplate);
+		currentlyPlayingSong = null;
+	}
+};
+     };
+     var onHover = function(event) {
+         // Placeholder for function logic
+     };
+     var offHover = function(event) {
+         // Placeholder for function logic
+     };
+     // #1
+     $row.find('.song-item-number').click(clickHandler);
+     // #2
+     $row.hover(onHover, offHover);
+     // #3
+     return $row;  
  };
 
 var albumTitle = document.getElementsByClassName('album-view-title')[0];
@@ -91,8 +124,8 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
  // Store state of playing songs
  var currentlyPlayingSong = null;
 
-
- window.onload = function() {
+$(document).ready(function() {
+    
      setCurrentAlbum(albumPicasso);
   //is this insereted at the correct Location?//   
      var findParentByClassName = function(element, targetClass) {
@@ -138,36 +171,18 @@ var getSongItem = function(element) {
                 currentlyPlayingSong = songItem.getAttribute('data-song-number');
      }
  };
-     
-      songListContainer.addEventListener('mouseover', function(event) {
-         // #1
-         console.log(event.target);
-          // Only target individual song rows during event delegation
-         if (event.target.parentElement.className === 'album-view-song-item') {
-             var songItem = getSongItem(event.target);
-+
-+            if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
-+                songItem.innerHTML = playButtonTemplate;
-+            }
-     });
+    
+$(document).ready(function() {
+    setCurrentAlbum)albumPicasso);
+}
+      
      for (var i = 0; i < songRows.length; i++) {
-         songRows[i].addEventListener('mouseleave', function(event) {
-             var songItem = getSongItem(event.target);
-             var songItemNumber = songItem.getAttribute('data-song-number');
- 
-             // #2
-             if (songItemNumber !== currentlyPlayingSong) {
-                 songItem.innerHTML = songItemNumber;
-             }
-
-         });
          
          songRows[i].addEventListener('click', function(event) {
-             // Event handler call
               clickHandler(event.target);
          });
      }
-         }
+         
 });
 
      
