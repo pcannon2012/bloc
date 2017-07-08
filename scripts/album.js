@@ -34,7 +34,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       ;
  
     var $row = $(template);
- var clickHandler = function () {
+        
          
  var clickHandler = function() {
 
@@ -101,6 +101,7 @@ var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
  
 var setCurrentAlbum = function(album) {
      currentAlbum = album;
+    
      var $albumTitle = $('album-view-title');
     
      albumTitle.firstChild.nodeValue = album.title;
@@ -113,6 +114,57 @@ var setCurrentAlbum = function(album) {
          body += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
     albumSongList.innerHTML = body;
+ };
+        
+var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+    var offsetXPercent = seekBarFillRatio * 100;
+    // #1
+    offsetXPercent = Math.max(0, offsetXPercent);
+    offsetXPercent = Math.min(100, offsetXPercent);
+ 
+    // #2
+    var percentageString = offsetXPercent + '%';
+    $seekBar.find('.fill').width(percentageString);
+    $seekBar.find('.thumb').css({left: percentageString});
+ };
+        
+var setupSeekBars = function() {
+ 
+     $seekBars.click(function(event) {
+         // #3
+         var offsetX = event.pageX - $(this).offset().left;
+         var barWidth = $(this).width();
+         // #4
+         var seekBarFillRatio = offsetX / barWidth;
+ 
+         // #5
+         updateSeekPercentage($(this), seekBarFillRatio);
+         // #6
+     var $seekBars = $('.player-bar .seek-bar');
+
+     $seekBars.click(function(event) {
+         
+     });
+          // #7
+     $seekBars.find('.thumb').mousedown(function(event) {
+         // #8
+         var $seekBar = $(this).parent();
+ 
+         // #9
+         $(document).bind('mousemove.thumb', function(event){
+             var offsetX = event.pageX - $seekBar.offset().left;
+             var barWidth = $seekBar.width();
+             var seekBarFillRatio = offsetX / barWidth;
+ 
+             updateSeekPercentage($seekBar, seekBarFillRatio);
+         });
+ 
+         // #10
+         $(document).bind('mouseup.thumb', function() {
+             $(document).unbind('mousemove.thumb');
+             $(document).unbind('mouseup.thumb');
+         });
+
  };
      
 var trackIndex = function(album, song) {
@@ -253,7 +305,7 @@ var previousSong = function() {
     
 $(document).ready(function() {
     setCurrentAlbum)albumPicasso);
-}
+    setupSeekBars();
       
      for (var i = 0; i < songRows.length; i++) {
          
@@ -262,7 +314,7 @@ $(document).ready(function() {
          });
      }
          
-});
+};
 
      
 var album = [albumPicasso, albumMarconi, albumBlackLab];
